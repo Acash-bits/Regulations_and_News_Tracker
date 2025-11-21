@@ -1,0 +1,117 @@
+version: '3.8'
+
+# ===================================================================
+# Docker Compose Configuration for News Fetcher
+# ===================================================================
+# This file sets up the complete application stack:
+# - MySQL database
+# - News Fetcher application
+# ===================================================================
+
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: news_fetcher_db
+    restart: unless-stopped
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-changeme}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-your_database_name}
+      MYSQL_CHARACTER_SET_SERVER: utf8mb4
+      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+    
+    ports:
+      - "3306:3306"
+    
+    volumes:
+      # Persistent database storage
+      - mysql_data:/var/lib/mysql
+      # Initialize database schema on first run
+      - ./database_schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    
+    networks:
+      - news_fetcher_network
+    
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_PASSWORD:-changeme}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # News Fetcher Application Service
+  news-fetcher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    container_name: news_fetcher_app
+    restart: unless-stopped
+    
+    depends_on:
+      mysql:
+        condition: service_healthy
+    
+    environment:
+      # Database Configuration
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-your_database_name}
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-changeme}
+      
+      # Email Configuration
+      SMTP_SERVER: ${SMTP_SERVER:-smtp.office365.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SENDER_EMAIL: ${SENDER_EMAIL}
+      SENDER_PASSWORD: ${SENDER_PASSWORD}
+      RECIPIENT_EMAIL: ${RECIPIENT_EMAIL}
+      CC_EMAIL: ${CC_EMAIL}
+      
+      # NewsAPI Keys
+      NEWSAPI_KEY_1: ${NEWSAPI_KEY_1}
+      NEWSAPI_KEY_2: ${NEWSAPI_KEY_2}
+      NEWSAPI_KEY_3: ${NEWSAPI_KEY_3}
+      
+      # Application Settings
+      TIMEZONE: ${TIMEZONE:-Asia/Kolkata}
+      FETCH_INTERVAL_MINUTES: ${FETCH_INTERVAL_MINUTES:-90}
+    
+    volumes:
+      # Mount logs directory for persistence
+      - ./logs:/app/logs
+      # Mount config if you want to override
+      # - ./config.py:/app/config.py:ro
+    
+    networks:
+      - news_fetcher_network
+    
+    # Uncomment for interactive mode
+    # stdin_open: true
+    # tty: true
+
+# ===================================================================
+# Named Volumes
+# ===================================================================
+volumes:
+  mysql_data:
+    driver: local
+    name: news_fetcher_mysql_data
+
+# ===================================================================
+# Networks
+# ===================================================================
+networks:
+  news_fetcher_network:
+    driver: bridge
+    name: news_fetcher_network
+
+# ===================================================================
+# Usage Instructions
+# ===================================================================
+# 1. Copy .env.example to .env and configure your settings
+# 2. Start services: docker-compose up -d
+# 3. View logs: docker-compose logs -f news-fetcher
+# 4. Stop services: docker-compose down
+# 5. Remove all data: docker-compose down -v
+# ===================================================================
