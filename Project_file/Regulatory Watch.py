@@ -1267,7 +1267,7 @@ def main():
     # MySQL Database Configuration
     MYSQL_CONFIG = {
         'host': os.getenv('MYSQL_HOST'),
-        'database': os.getenven('MYSQL_DATABASE'),
+        'database': os.getenv('MYSQL_DATABASE'),
         'user': os.getenv('MYSQL_USER'),
         'password': os.getenv('MYSQL_PASSWORD')
     }
