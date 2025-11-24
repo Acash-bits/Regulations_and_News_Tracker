@@ -1,28 +1,171 @@
-# MySQL Database Configuration
-MYSQL_HOST=localhost
-MYSQL_DATABASE=lks_company
-MYSQL_USER=root
-MYSQL_PASSWORD=your_mysql_password
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Email Configuration (SMTP)
-SMTP_SERVER=smtp.office365.com
-SMTP_PORT=587
-SENDER_EMAIL=your_email@domain.com
-SENDER_PASSWORD=your_email_password
-RECIPIENT_EMAIL=recipient@domain.com
-CC_EMAIL=cc@domain.com
+# C extensions
+*.so
 
-# NewsAPI Keys (comma-separated for multiple keys)
-NEWSAPI_KEY_1=your_primary_newsapi_key
-NEWSAPI_KEY_2=your_backup_newsapi_key_1
-NEWSAPI_KEY_3=your_backup_newsapi_key_2
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Application Settings
-FETCH_INTERVAL_MINUTES=90
-MORNING_EMAIL_START=10
-MORNING_EMAIL_END=12
-EVENING_EMAIL_START=16
-EVENING_EMAIL_END=18
+# PyInstaller
+*.manifest
+*.spec
 
-# Timezone
-TIMEZONE=Asia/Kolkata
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific
+config.ini
+config.json
+*.db
+*.sqlite
+*.log
+
+# Sensitive information
+credentials.py
+secrets.py
+*.key
+*.pem
+*.cert
+
+# Database dumps
+*.sql
+*.dump
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~.nib
+
+# Logs
+regulatory_updates_fetcher.log
