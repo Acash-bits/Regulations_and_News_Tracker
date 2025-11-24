@@ -21,6 +21,7 @@ from urllib.parse import urljoin, urlparse
 import random
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
 # Configure logging with proper encoding
