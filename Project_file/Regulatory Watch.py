@@ -19,6 +19,9 @@ import pytz
 import re
 from urllib.parse import urljoin, urlparse
 import random
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure logging with proper encoding
 logging.basicConfig(
@@ -1262,27 +1265,27 @@ def main():
     
     # MySQL Database Configuration
     MYSQL_CONFIG = {
-        'host': 'host_name',
-        'database': 'database_name',
-        'user': 'your_username',
-        'password': 'your_password'
+        'host': os.getenv('MYSQL_HOST'),
+        'database': os.getenven('MYSQL_DATABASE'),
+        'user': os.getenv('MYSQL_USER'),
+        'password': os.getenv('MYSQL_PASSWORD')
     }
     
     # Email Configuration - EDIT HERE
     EMAIL_CONFIG = {
-        'smtp_server': 'smtp.office365.com',
-        'smtp_port': int('smtp_port'),
-        'sender_email': 'sender@example.com',
-        'sender_password': 'your_email_password',
-        'recipient_email': 'recipient.email@example.com',
-        'cc_email': 'email.cc@gmail.com'  # Single CC
+        'smtp_server': os.getenv('SMTP_SERVER'),
+        'smtp_port': int(os.getenv('SMTP_PORT')),
+        'sender_email': os.getenv('SENDER_EMAIL'),
+        'sender_password': os.getenv('SENDER_PASSWORD'),
+        'recipient_email': os.getenv('RECIPIENT_EMAIL'),
+        'cc_email': os.getenv('CC_EMAIL')  # Single CC
         # For multiple CC: 'cc_email': ['email1@example.com', 'email2@example.com']
     }
     
     # NewsAPI Keys - Add multiple keys for automatic rotation
     API_KEYS = [
-        "your_first_api_key",  # Primary key
-        "your_second_api_key",  # Backup key
+        os.getenv('NEWSAPI_KEY_1'),  # Primary key
+        os.getenv('NEWSAPI_KEY_2'),  # Backup key
         # "your_third_api_key_here",
     ]
     
