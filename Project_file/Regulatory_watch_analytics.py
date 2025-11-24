@@ -7,6 +7,10 @@ from datetime import datetime, timedelta
 import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
 import warnings
+import os
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 warnings.filterwarnings('ignore')
 
 # Set style for better-looking plots
@@ -675,10 +679,10 @@ def main():
     # =================================================================
     
     MYSQL_CONFIG = {
-        'host': 'host_name_or_ip',
-        'database': 'database_name',
-        'user': 'your_username',
-        'password': 'your_password'
+        'host': os.getenv('MYSQL_HOST'),
+        'database': os.getenv('MYSQL_DATABASE'),
+        'user': os.getenv('MYSQL_USER'),
+        'password': os.getenv('MYSQL_PASSWORD')
     }
     
     # =================================================================
