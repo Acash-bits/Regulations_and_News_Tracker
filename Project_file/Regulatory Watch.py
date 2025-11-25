@@ -64,7 +64,7 @@ class NewsFetcher:
         
         # LIMITED KEYWORDS - Only 1 article per run (90 minutes cycle)
         self.limited_keywords = [
-            'Tarrif'
+            'Tarrif','AI'
         ]
         
         # Track limited keyword usage per run
