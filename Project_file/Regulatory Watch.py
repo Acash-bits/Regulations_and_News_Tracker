@@ -59,7 +59,7 @@ class NewsFetcher:
             'SEBI', 'FEMA', 'IPR', 'Intellectual Property', 'Trademark', 
             'Tariff', 'Semiconductor', 'Press Note', 'Antitrust', 'DRHP', 
             'Anti-Dumping', 'Anti Dumping', 'Input Tax Credit', 'ITC', 'AI',
-            "Regulations", "Regulatory", "Guidelines"
+            "Regulations", "Regulatory", "Guidelines", "Budget"
         ]
         
         # LIMITED KEYWORDS - Only 1 article per run (90 minutes cycle)
