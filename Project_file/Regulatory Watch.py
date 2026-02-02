@@ -67,6 +67,11 @@ class NewsFetcher:
             'Tarrif','AI'
         ]
         
+        # Exclusion Keywords (if this/these words are present in the heading news will be removed)
+        self.exclusion_keywords = [
+            'Income Tax'
+        ]
+
         # Track limited keyword usage per run
         self.limited_keyword_usage = {}
         
@@ -231,6 +236,32 @@ class NewsFetcher:
             self.limited_keyword_usage[keyword] = self.limited_keyword_usage.get(keyword, 0) + 1
             logging.info(f"Limited keyword '{keyword}' used: {self.limited_keyword_usage[keyword]}/1")
 
+    def should_exclude_article(self,title):
+        """
+        Check if article should be excluded based on exclusion keyword(s).
+        Case-sensitive matching with word boundaries
+        
+        Args:
+            title (str): Article Title to Check
+
+        Return:
+            bool: True if article should be excluded, False Otherwise
+        """
+        if not title:
+            return False
+
+        # Convert title to lowercase for case-sensitive comparison
+        title_lower =  title.lower()
+
+        for exclusion_keyword in self.exclusion_keywords:
+            # Convert exclusion keyword to lowercase for matching
+            # Use word boundary matching for precise exclusion
+            pattern = r"\b" + re.escape(exclusion_keyword.lower()) + r"\b"
+            if re.search(pattern, title_lower):
+                logging.info(f"Excluding article due to keyword '{exclusion_keyword}': {title[:60]}... ")
+                return True
+        return False
+
     def normalize_heading(self, heading):
         """Normalize heading for duplicate detection"""
         if not heading:
@@ -293,6 +324,7 @@ class NewsFetcher:
             
             inserted_count = 0
             skipped_duplicate_heading = 0
+            skipped_exclusion = 0
             error_count = 0
             
             for article in articles:
@@ -303,6 +335,11 @@ class NewsFetcher:
                     if not title or not url:
                         logging.warning(f"Skipping article with missing title or URL: {article}")
                         error_count += 1
+                        continue
+
+                    # Check exclusion keywords BEOFRE any database operation
+                    if self.should_exclude_article(title):
+                        skipped_exclusion += 1
                         continue
                     
                     # Normalize the heading for comparison
@@ -355,6 +392,7 @@ class NewsFetcher:
             logging.info(f"Database operation completed:")
             logging.info(f"  ✓ {inserted_count} new articles inserted")
             logging.info(f"  ⊘ {skipped_duplicate_heading} articles skipped (duplicate headings)")
+            logging.info(f"  ⊘ {skipped_exclusion} articles skipped (exclusion keyword(s))")
             logging.info(f"  ✗ {error_count} errors encountered")
             logging.info(f"  = {len(articles)} total articles processed")
             logging.info(f"=" * 70)
