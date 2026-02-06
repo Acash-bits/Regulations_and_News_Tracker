@@ -59,7 +59,7 @@ class NewsFetcher:
             'SEBI', 'FEMA', 'IPR', 'Intellectual Property', 'Trademark', 
             'Tariff', 'Semiconductor', 'Press Note', 'Antitrust', 'DRHP', 
             'Anti-Dumping', 'Anti Dumping', 'Input Tax Credit', 'ITC', 'AI',
-            "Regulations", "Regulatory", "Guidelines", "Budget"
+            "Regulations", "Regulatory", "Guidelines"
         ]
         
         # LIMITED KEYWORDS - Only 1 article per run (90 minutes cycle)
@@ -67,9 +67,9 @@ class NewsFetcher:
             'Tarrif','AI'
         ]
         
-        # Exclusion Keywords (if this/these words are present in the heading news will be removed)
+        # Exclusion Keywords (if this/these words is/are present in the heading news will be removed)
         self.exclusion_keywords = [
-            'Income Tax'
+            
         ]
 
         # Track limited keyword usage per run
