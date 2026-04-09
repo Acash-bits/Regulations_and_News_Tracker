@@ -1310,7 +1310,7 @@ def main():
         'password': os.getenv('MYSQL_PASSWORD')
     }
     
-    # Email Configuration - EDIT HERE
+    # Email Configuration
     EMAIL_CONFIG = {
         'smtp_server': os.getenv('SMTP_SERVER'),
         'smtp_port': int(os.getenv('SMTP_PORT')),
