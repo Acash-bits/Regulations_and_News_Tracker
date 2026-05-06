@@ -506,7 +506,11 @@ class NewsFetcher:
         try:
             msg = MIMEMultipart('alternative')
             msg['From'] = self.email_config['sender_email']
-            msg['To'] = self.email_config['recipient_email']
+            recipient = self.email_config['recipient_email']
+            if isinstance(recipient, list):
+                msg['To'] = ','.join(recipient)
+            else:
+                msg['To'] = recipient
             
             cc_emails = []
             if 'cc_email' in self.email_config and self.email_config['cc_email']:
@@ -546,8 +550,9 @@ class NewsFetcher:
             server.starttls()
             server.login(self.email_config['sender_email'], self.email_config['sender_password'])
             
-            recipients = [self.email_config['recipient_email']] + cc_emails
-            
+            to_emails = self.email_config['recipient_email'] if isinstance(self.email_config['recipient_email'], list) else [self.email_config['recipient_email']]
+            recipients = to_emails + cc_emails
+
             text = msg.as_string()
             server.sendmail(self.email_config['sender_email'], recipients, text)
             server.quit()
@@ -1316,9 +1321,8 @@ def main():
         'smtp_port': int(os.getenv('SMTP_PORT')),
         'sender_email': os.getenv('SENDER_EMAIL'),
         'sender_password': os.getenv('SENDER_PASSWORD'),
-        'recipient_email': os.getenv('RECIPIENT_EMAIL'),
-        'cc_email': os.getenv('CC_EMAIL')  # Single CC
-        # For multiple CC: 'cc_email': ['email1@example.com', 'email2@example.com']
+        'recipient_email': [r.strip() for r in os.getenv('RECIPIENT_EMAIL', '').split(',') if r.strip()],
+        'cc_email': [r.strip() for r in os.getenv('CC_EMAIL', '').split(',') if r.strip()]
     }
     
     # NewsAPI Keys - Add multiple keys for automatic rotation
