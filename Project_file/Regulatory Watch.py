@@ -377,7 +377,7 @@ class NewsFetcher:
                     ))
                     
                     inserted_count += 1
-                    logging.info(f"✓ Inserted: {title[:60]}... from {article['source']}")
+                    logging.info(f"✓ Inserted Unique Titles: {title[:60]}... from {article['source']}")
                         
                 except Error as e:
                     error_count += 1
@@ -1180,7 +1180,7 @@ class NewsFetcher:
         
         # Save to database (will check for duplicate headings in database)
         if unique_articles:
-            logging.info(f"Processing {len(unique_articles)} unique articles to database...")
+            logging.info(f"Processing {len(unique_articles)} scraped articles to database...")
             self.save_to_database(unique_articles)
         else:
             logging.warning("No unique articles found to save!")
