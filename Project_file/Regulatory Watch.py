@@ -1180,7 +1180,7 @@ class NewsFetcher:
         
         # Save to database (will check for duplicate headings in database)
         if unique_articles:
-            logging.info(f"Processing {len(unique_articles)} scraped articles to database...")
+            logging.info(f"Processing {len(unique_articles)} scraped articles...")
             self.save_to_database(unique_articles)
         else:
             logging.warning("No unique articles found to save!")
